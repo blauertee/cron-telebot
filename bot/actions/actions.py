@@ -170,6 +170,7 @@ async def add_new_jobs(update, context: ContextTypes.DEFAULT_TYPE):
         try:
             user_nextrun, db_nextrun = utils.calc_next_run(crontab, user_tz_offset)
         except Exception:
+            await replies.send_invalid_crontab_line_message(update, crontab)
             continue
 
         jobname = generate_jobname(db_service, update.message.chat.type, chat_id)

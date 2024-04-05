@@ -16,6 +16,7 @@ timezone_nochange_error_message = "Whut? That's the same timezone!"
 invalid_new_job_message = "A job with this name already exists. Please /add and create a new job, or /edit this job."
 quiz_unavailable_message = 'Recurring messages unfortunately cannot support recurring quizzes in channels and groups... because Telegram does not return the correct option id for forwarded messages (◕︵◕) (<a href="https://docs.python-telegram-bot.org/en/v12.5.1/telegram.poll.html#telegram.Poll.correct_option_id">see docs</a>)'
 invalid_crontab_message = 'This expression is invalid. Please provide a valid expression. Click <a href="https://crontab.guru/">here</a> if you need help. Use /checkcron to check your cron expression.'  # html
+invalid_crontab_line_message = 'This expression is invalid. \n%s\n Please provide a valid expression. Click <a href="https://crontab.guru/">here</a> if you need help. Use /checkcron to check your cron expression.'  # html
 convo_unauthorized_message = (
     "Only the user who started this convo can continue this convo."
 )
@@ -74,6 +75,14 @@ async def send_invalid_crontab_message(update):
     await update.message.reply_text(
         reply_markup=ForceReply(selective=True),
         text=invalid_crontab_message,
+        parse_mode=ParseMode.HTML,
+        disable_web_page_preview=True,
+    )
+
+async def send_invalid_crontab_line_message(update, crontab):
+    await update.message.reply_text(
+        reply_markup=ForceReply(selective=True),
+        text=invalid_crontab_line_message % crontab,
         parse_mode=ParseMode.HTML,
         disable_web_page_preview=True,
     )
